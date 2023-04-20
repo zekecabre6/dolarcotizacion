@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Precios BlueLytics</title>
+  <style>
+    body {
+      background: #000020;
+      margin: 0;
+      padding: 0;
+    }
+    
+    h1 {
+        color: antiquewhite;
+      font-size: 32px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .card {
+      background-color: #f5f5f5;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      text-align: center;
+    }
+
+    .card h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 20px;
+    }
+
+    .loading {
+      display: none;
+      position: absolute;
+      top: 50%;
+      right: 50%;
+      transform: translate(50%, -50%);
+    }
+
+    .loading img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .footer-second {
+      position: fixed;
+      bottom: 0;
+      border-top: 1px solid;
+      margin: 0;
+      background-color: #a5a5a5;
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+      color: white;
+      padding: 10px 0;
+    }
+
+    .footer-second a,
+    .footer-second p {
+      color: #fff;
+      font-size: 100%;
+      line-height: 155%;
+    }
+
+    #logo_b {
+      font-size: 25px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Precios de Divisas en Pesos</h1>
+
+  <div class="container">
+    <div class="card">
+      <h2>Dólar Blue</h2>
+      <p id="dolar"></p>
+    </div>
+
+    <div class="card">
+      <h2>Euro Blue</h2>
+      <p id="euro"></p>
+    </div>
+  </div>
+
+  <div class="loading">
+    <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Loading">
+    
+  </div>
+
+  <footer class="footer-second">
+    <p id="logo_b">
+      &copy; <a href="https://www.instagram.com/zekecabre">ZekeCabre</a>
+    </p>
+  </footer>
+
+    <script>
+        // Función para actualizar los precios
+        function actualizarPrecios() {
+            // Mostrar la animación de carga
+            document.querySelector('.loading').style.display = 'block';
+
+            // Realizar una solicitud a la API para obtener los precios
+            fetch('https://api.bluelytics.com.ar/v2/latest')
+                .then(response => response.json())
+                .then(data => {
+                    // Obtener los precios del dólar y del euro blue
+                    const dolar = data.blue.value_sell;
+                    const euro = data.blue_euro.value_sell;
+
+                    // Actualizar los elementos HTML correspondientes con los precios
+                    document.getElementById('dolar').textContent = `$ ${dolar}`;
+                    document.getElementById('euro').textContent = `$ ${euro}`;
+
+                    // Ocultar la animación de carga
+                    document.querySelector('.loading').style.display = 'block';
+                })
+                .catch(error => console.error(error));
+        }
+
+        // Actualizar los precios cada 30 segundos
+        setInterval(actualizarPrecios, 1000);
+
+        // Actualizar los precios por primera vez
+        actualizarPrecios();
+    </script>
+</body>
+<footer class="footer-second">
+    <p ID="logo_b">
+        &copy; <a href="https://www.instagram.com/zekecabre">ZekeCabre</a>
+    </p>
+
+
+</footer>
+
+</html>
